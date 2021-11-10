@@ -27,6 +27,10 @@
     margin: 0;
 }
 
+.modalLogo {
+    width: 100px;
+}
+
 /*
     height: fit-content;
 
