@@ -56,10 +56,10 @@ class App extends React.Component {
     //console.log(window.location.pathname === "/details");
     //console.log("> " + state.display.isDetailsOpen === (window.location.pathname === "/details"));
     
-    if(!(state.display.isDetailsOpen) === (window.location.pathname === "/COMP-4513-Fall2021-Assignment1/details")) {
+    if(!(state.display.isDetailsOpen) === (window.location.pathname === "/details")) {
       //console.log(state.display.isDetailsOpen)
       let updatingDisplay = {...this.state.display};
-      updatingDisplay["isDetailsOpen"] = (window.location.pathname === "/COMP-4513-Fall2021-Assignment1/details");
+      updatingDisplay["isDetailsOpen"] = (window.location.pathname === "/details");
 
       updatingDisplay["isFavoriteOpen"] = false;
       //updatingDisplay["isDoneTransition"] = false;
@@ -363,11 +363,11 @@ class App extends React.Component {
     return (
       <div id="App">
         <Routes>
-          <Route path="/COMP-4513-Fall2021-Assignment1/" element={ 
+          <Route path="/" element={ 
             <Browser logo={logo} text={this.state.filters.title} update={this.useFilters}/>
           }/>
 
-          <Route path="/COMP-4513-Fall2021-Assignment1/home" element={
+          <Route path="/home" element={
             <div>
               <Header logo={logo} updateDisplay={this.updateDisplay} isAboutOpen={this.state.display.isShowingAbout}/>
               <DefaultView logo={logo} 
@@ -382,7 +382,7 @@ class App extends React.Component {
             </div>
           }/>
 
-          <Route path="/COMP-4513-Fall2021-Assignment1/details" element={
+          <Route path="/details" element={
             <div>
               <Header logo={logo} updateDisplay={this.updateDisplay} isAboutOpen={this.state.display.isShowingAbout}/>
               <DefaultView logo={logo} 
