@@ -45,7 +45,7 @@ class App extends React.Component {
       }
     };
     setInterval(() => this.checkLocation(this.state), 500);
-    setInterval(() => {console.log(this.state)}, 5000);
+    //setInterval(() => {console.log(this.state)}, 5000);
   }
 
   checkLocation = (state) => {
@@ -98,28 +98,28 @@ class App extends React.Component {
         this.useLocalStorage(varName, updateTo);
       }
       this.setState(updatingState);
-      console.log("State updated to:");
-      console.log(updatingState);
+      //console.log("State updated to:");
+      //console.log(updatingState);
     }
   }
 
   modifyFavorite = (favoriteId) => {
     let changedFavorites = [...this.state.favorites];
-    console.log(favoriteId);
+    //console.log(favoriteId);
     if(changedFavorites.find(f => f.id === favoriteId)) {
-      console.log("isDeleting!")
+      //console.log("isDeleting!")
       let index = changedFavorites.findIndex(f => f.id === favoriteId);
-      console.log(index);
-      console.log(changedFavorites[index]);
+      //console.log(index);
+      //console.log(changedFavorites[index]);
       changedFavorites.splice(index, 1);
-      console.log(changedFavorites);
+      //console.log(changedFavorites);
       this.updateState("favorites", changedFavorites);
     } else {
-      console.log("Current faves:");
-      console.log(changedFavorites);
+      //console.log("Current faves:");
+      //console.log(changedFavorites);
       let newFavorite = this.state.allPlays.find(p => p.id === favoriteId);
-      console.log("New fave:");
-      console.log(newFavorite);
+      //console.log("New fave:");
+      //console.log(newFavorite);
       changedFavorites.push(newFavorite)
       this.updateState("favorites", changedFavorites);
     }
@@ -172,7 +172,7 @@ class App extends React.Component {
         break;
 
       default:
-        console.log("Clearing filters!")
+        //console.log("Clearing filters!")
         updatingFilters = {
           title: "",
           year: {
@@ -198,10 +198,20 @@ class App extends React.Component {
   }
 
   updateDisplay = e => {
-    const name = e.target.name;
-    console.log("clicked updateDisplay: " + name);
+    let name;
+    try {
+      name = e.target.name;
+    } catch(e) {
+      this.updateState("focusedPlay", {
+        playsInfo: "This play is currently unavailable.",
+        playData: "This play is currently unavailable."
+      }); 
+      
+      //this.handleBrokenPlay();
+    }
+    //console.log("clicked updateDisplay: " + name);
     let updatingDisplay = {...this.state.display};
-    console.log(updatingDisplay);
+    //console.log(updatingDisplay);
     //let toUpdate = true;
     switch(name) {
       case "favoriteToggle":
@@ -263,20 +273,29 @@ class App extends React.Component {
   clickSetCurrentPlay = e => {
     const play = e.currentTarget.getAttribute("value");
     const currentPlay = this.state.allPlays.find(p => p.id === play);
-    console.log(play);
+    //console.log(play);
     const api = `https://www.randyconnolly.com//funwebdev/3rd/api/shakespeare/play.php?name=${play}`;
-    console.log(api);
+    //console.log(api);
     fetch(api)
         .then(resp => resp.json())
         .then(data => this.hasReceivedPlay(data, currentPlay, e))
-        .catch(e => {console.error(e)});
+        .catch(e => {this.handleBrokenPlay()});
+  }
+
+  handleBrokenPlay = () => {
+    this.updateState("focusedPlay", {
+      playsInfo: "This play is currently unavailable.",
+      playData: "This play is currently unavailable."
+    }); 
+    this.updateDisplay();
   }
 
   hasReceivedPlay = (data, currentPlay, e) => {
-    console.log("Fetched this data:");
-    console.log(data);
+    //console.log("Fetched this data:");
+    //console.log(data);
     if(data.message) {
-      console.log("> " + data.message)
+      //console.log("> " + data.message);
+      this.handleBrokenPlay()
     } else {
       let updatingFilters = this.autofillInnerPlayFilters();
 
@@ -299,7 +318,11 @@ class App extends React.Component {
   }
 
   getIndexOfAct = (actName, playData) => {
-    return playData.findIndex(act => act.name === actName);
+    try {
+      return playData.findIndex(act => act.name === actName);
+    } catch(e) {
+      return null;
+    }
   }
   
   /*
@@ -331,15 +354,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     this.mounted = true;
-    let tempData = [{
-      "id": "hamlet",
-      "filename": "hamlet.json",
-      "title": "Hamlet"
-    }, {
-      "id": "hamlet1",
-      "filename": "hamletto.json",
-      "title": "Not Hamlet!"
-    }];
     if(this.useLocalStorage("allPlays")) {
       this.updateState("allPlays", this.useLocalStorage("allPlays"));
     } else {
@@ -351,7 +365,7 @@ class App extends React.Component {
             this.updateState("allPlays", data);
             this.useLocalStorage("allPlays", data);
           })
-          .catch(e => this.updateState("allPlays", [...tempData]));
+          .catch(e => console.error(e));
       } catch {
         console.error("OH NO FETCH DIED!");
       }

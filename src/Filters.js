@@ -17,17 +17,21 @@ class Filters extends React.Component {
                 <h3>Title</h3>
                 <input type="text" name="title" value={this.props.filters.title} onChange={this.props.update}/>
                 <h3>Year</h3>
-                <Radio value="before" isSelected={this.props.filters.year.selected === "before"} click={this.props.update}/> Before:
-                    <input type="text" name="before" value={this.props.filters.year.before} onChange={this.props.update}/>
-                <br />
-                <Radio value="after" isSelected={this.props.filters.year.selected === "after"} click={this.props.update}/> After:
-                    <input type="text" name="after" value={this.props.filters.year.after} onChange={this.props.update}/>
+                <div className="yearData">
+                    <Radio value="before" isSelected={this.props.filters.year.selected === "before"} click={this.props.update}/> <p>Before:</p>
+                        <input type="text" name="before" value={this.props.filters.year.before} onChange={this.props.update}/>
+                    <br />
+                    <Radio value="after" isSelected={this.props.filters.year.selected === "after"} click={this.props.update}/> <p>After:</p>
+                        <input type="text" name="after" value={this.props.filters.year.after} onChange={this.props.update}/>
+                </div>
                 <h3>Genre</h3>
                 <input type="text" name="genre" value={this.props.filters.genre} onChange={this.props.update}/>
                 <br /><br />
-                <button className="button" name="search" onClick={this.props.update}> Filter </button> 
-                <button className="button" name="clear" onClick={this.props.update}> Clear </button> 
 
+                <div className="alignButtons">
+                    <button className="button" name="search" onClick={this.props.update}> Filter </button> 
+                    <button className="button" name="clear" onClick={this.props.update}> Clear </button> 
+                </div>
             </section>
         );
     }

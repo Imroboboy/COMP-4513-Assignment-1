@@ -128,7 +128,8 @@ class PlayDetails extends React.Component {
                                                 {s.speaker}
                                             </h3>
                                             {s.lines.map((l, indexLine) => 
-                                                <p><Highlighter key= {"Line: " + indexLine}
+                                                //I got help filling out this component from: https://www.npmjs.com/package/react-highlight-words
+                                                <p key= {"Line: " + indexLine}><Highlighter key= {"LineHighlight: " + indexLine}
                                                     highlightClassName="highightedData"
                                                     className="textData"
                                                     searchWords={searching}
@@ -144,6 +145,7 @@ class PlayDetails extends React.Component {
                                                 {s.speaker}
                                             </h3>
                                             {s.lines.map((l, indexLine) => <p key={"Line: " + indexLine}>{l}<br /></p>)}
+                                            <h4>{s.stagedir}</h4>
                                         </div>
                                     );
                                 }
@@ -171,7 +173,7 @@ class PlayDetails extends React.Component {
     render() {
         //!this.props.display.isDetailsOpen
         let isOpen = (this.props.display.isDetailsOpen) ? "playDetails" : "playDetailsClosed playDetails";
-        console.log(this.props.display.isDetailsOpen);
+        //console.log(this.props.display.isDetailsOpen);
         isOpen += " rightTwix";
 
         //this.props.filteredPlays
@@ -185,18 +187,38 @@ class PlayDetails extends React.Component {
 
 
         if(this.props.playData.playsInfo && this.props.playData.playData) {
-            return (
-                <section className={isOpen}>
-                    <div id="playDetailsNavTabs">
-                        {this.makeTabSwitch("Details")}
-                        {this.makeTabSwitch("Characters")}
-                        {this.makeTabSwitch("Text")}
-                    </div>
-                    
-                    {this.formatContent()}
+            if(this.props.playData.playData !== "This play is currently unavailable.") {
+                return (
+                    <section className={isOpen}>
+                        <div id="playDetailsNavTabs">
+                            {this.makeTabSwitch("Details")}
+                            {this.makeTabSwitch("Characters")}
+                            {this.makeTabSwitch("Text")}
+                        </div>
+                        
+                        {this.formatContent()}
+    
+                    </section>
+                );
+            } else {
+                return (
+                    <section className={isOpen}>
+                        <div id="playDetailsNavTabs">
+                            {this.makeTabSwitch("Details")}
+                            {this.makeTabSwitch("Characters")}
+                            {this.makeTabSwitch("Text")}
+                        </div>
+                        
+                        <div id="detailsContent">
+                            <h2>This play is currently unavailable.</h2>
+                            <h2>Sorry for any inconveniences.</h2>
+                        </div>
 
-                </section>
-            );
+                    </section>
+                );
+                
+            }
+
         } else {
             return (
                 <section className="playDetailsClosed playDetails rightTwix">

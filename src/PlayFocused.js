@@ -9,7 +9,7 @@ class PlayFocused extends React.Component {
 
         let extraOption = (extra) ? <option value={extra}>{extra}</option> : "";
         if(name === "character") {
-            console.log(data);
+            //console.log(data);
             const toReturn = (
                 <select key={name + "Select"} name={name} value={selectedDefault} onChange={this.props.updateFilters}>
                     {extraOption}
@@ -18,10 +18,10 @@ class PlayFocused extends React.Component {
                     })}
                 </select>
             );
-            console.log(toReturn);
+            //console.log(toReturn);
             return toReturn;
         } else {
-            console.log(data);
+            //console.log(data);
             const toReturn = (
                 <select key={name + "Select"} name={name} value={selectedDefault} onChange={this.props.updateFilters}>
                     {extraOption}
@@ -30,14 +30,14 @@ class PlayFocused extends React.Component {
                     })}
                 </select>
             );
-            console.log(toReturn);
+            //console.log(toReturn);
             return toReturn;
         }
 
     }
 
     render() {
-        console.log(this.props)
+        //console.log(this.props)
 
         const info = this.props.playData.playsInfo;
         const data = this.props.playData.playData;
@@ -51,7 +51,7 @@ class PlayFocused extends React.Component {
 
             if(this.props.display.detailsTabName === "text") {
 
-                console.log(this.props.getActIndex(this.props.filters.innerPlay.act, data.acts));
+                //console.log(this.props.getActIndex(this.props.filters.innerPlay.act, data.acts));
                 try {
                     myContent = (
                         <div className="indent">
@@ -65,11 +65,18 @@ class PlayFocused extends React.Component {
                         </div>
                     );
                 } catch(e) {
-                    myContent = (
-                        <div className="indent">
-                            Loading...
-                        </div>
-                    );
+                    if(info !== "This play is currently unavailable.") {
+                        myContent = (
+                            <div className="indent">
+                                Loading...
+                            </div>
+                        );
+                    } else {
+                        myContent = (
+                            <div className="indent"></div>
+                        );
+                    }
+
                 }
                 
             } else {

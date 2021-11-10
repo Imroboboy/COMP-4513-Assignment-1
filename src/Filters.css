@@ -2,7 +2,23 @@
   text-align: center;
 }
 
+.yearData > input {
+  width: 10vw;
+}
 
+.yearData > p {
+  display: inline-block;
+  margin: 0;
+  width: 4vw;
+}
+
+.radio {
+  width: 14px;
+}
+
+.filters > input {
+  width: calc(14px + 14vw);
+}
 
 /*
   margin: 0% 1% 0% 1%;
